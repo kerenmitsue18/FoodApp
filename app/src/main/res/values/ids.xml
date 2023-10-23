@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="email" type="id"/>
+    <item name="password" type="id" />
+    <item name="signup_button" type="id" />
+    <item name="loginRedictText" type="id" />
+    <item name="login_button" type="id" />
+    <item name="signupRedictText" type="id" />
+    <item name="screen_viewpager" type="id" />
+</resources>
