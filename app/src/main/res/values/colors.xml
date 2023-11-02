@@ -9,4 +9,5 @@
     <color name="green_dark">#1C2C05</color>
     <color name="white">#FFFFFF</color>
     <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
