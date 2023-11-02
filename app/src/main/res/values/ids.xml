@@ -7,4 +7,5 @@
     <item name="login_button" type="id" />
     <item name="signupRedictText" type="id" />
     <item name="screen_viewpager" type="id" />
+    <item name="radioGroupContainer" type="id" />
 </resources>

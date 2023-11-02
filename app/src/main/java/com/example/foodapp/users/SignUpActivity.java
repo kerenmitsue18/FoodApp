@@ -1,6 +1,8 @@
 package com.example.foodapp.users;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.foodapp.MainActivity;
 import com.example.foodapp.R;
+import com.example.foodapp.models.User;
+import com.example.foodapp.service.UserService;
+import com.example.foodapp.users.formulary.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,9 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    private EditText email, password;
+    private EditText txt_email, txt_password;
     private Button signup_button;
     private TextView loginRedictText;
+    private String id_user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,29 +37,37 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.signup_activity);
 
         auth = FirebaseAuth.getInstance();
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
+        txt_email = findViewById(R.id.email);
+        txt_password = findViewById(R.id.password);
         signup_button = findViewById(R.id.signup_button);
         loginRedictText = findViewById(R.id.loginRedictText);
 
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user = email.getText().toString().trim();
-                String pass = password.getText().toString().trim();
-
+                String user = txt_email.getText().toString().trim();
+                String pass = txt_password.getText().toString().trim();
+                User user_ob = new User(user, pass);
                 if(user.isEmpty()){
-                    email.setError("El email no puede ser vacio");
+                    txt_email.setError("El email no puede ser vacio");
                 }
                 if(pass.isEmpty()){
-                    password.setError("La contraseña no puede ser vacio");
+                    txt_password.setError("La contraseña no puede ser vacio");
                 }else{
                     auth.createUserWithEmailAndPassword(user, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(SignUpActivity.this, "A ingresado correctamente", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+
+                                //almacenar en firebase el usuario
+                                UserService service_user = new UserService(SignUpActivity.this, user_ob);
+                                id_user = service_user.save();
+
+                                //Salvar la sesión en android
+                                saveSesion();
+                                startActivity(new Intent(SignUpActivity.this, RegisterActivity.class));
+
                             }else{
                                 Toast.makeText(SignUpActivity.this, "Fallo el registro \n" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -68,5 +83,18 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
+    private void saveSesion() {
+        SharedPreferences preferences = getSharedPreferences("sesion", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("id_user", id_user);
+        editor.putString("email", String.valueOf(txt_email));
+        editor.putString("password", String.valueOf(txt_password));
+        editor.putBoolean("status", true);
+        editor.apply();
+    }
+
+
 }
