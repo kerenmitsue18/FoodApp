@@ -8,4 +8,8 @@
     <item name="signupRedictText" type="id" />
     <item name="screen_viewpager" type="id" />
     <item name="radioGroupContainer" type="id" />
+    <item name="frame_layout" type="id" />
+    <item name="home" type="id"/>
+    <item name="lugares" type="id" />
+    <item name="configuracion" type="id" />
 </resources>

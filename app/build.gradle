@@ -7,7 +7,13 @@ android {
     namespace 'com.example.foodapp'
     compileSdk 34
 
+    viewBinding {
+        enabled = true
+    }
+
+
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.example.foodapp"
         minSdk 16
         targetSdk 34
@@ -22,9 +28,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildFeatures {
-        viewBinding true
-    }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -38,12 +43,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4' // Usa la última versión disponible
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.core:core:1.7.0'
+    implementation 'com.android.support:multidex:2.0.1'
 
     implementation ('androidx.activity:activity:1.8.0') {
         exclude group: 'com.example', module: 'conflicting-library'
     }
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

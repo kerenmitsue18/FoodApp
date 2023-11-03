@@ -34,9 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     int position = 0;
     Button btnGetStarted;
     Animation btnAnim;
-
-
-
+    private List<String[]> opciones;
 
 
     @Override
