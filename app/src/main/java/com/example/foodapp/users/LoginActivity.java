@@ -11,14 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.foodapp.MainActivity;
-import com.example.foodapp.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodapp.users.formulary.RegisterActivity;
+import com.example.foodapp.MainActivity;
+import com.example.foodapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -35,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
         email = findViewById(R.id.email);
@@ -91,4 +89,5 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean("status", true);
         editor.apply();
     }
+
 }

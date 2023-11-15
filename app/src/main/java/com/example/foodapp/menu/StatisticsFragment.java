@@ -1,4 +1,4 @@
-package com.example.foodapp;
+package com.example.foodapp.menu;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +7,23 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.foodapp.R;
 
-public class PlaceFragment extends Fragment {
+
+public class StatisticsFragment extends Fragment {
+
+
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_place, container, false);
+        view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        initComponents();
+        return view;
     }
+
+    private void initComponents() {
+    }
+
 }

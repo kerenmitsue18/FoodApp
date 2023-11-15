@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodapp.MainActivity;
 import com.example.foodapp.R;
 import com.example.foodapp.models.User;
 import com.example.foodapp.service.UserService;
@@ -26,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    private EditText txt_email, txt_password;
+    private EditText txt_email, txt_password, txtusername;
     private Button signup_button;
     private TextView loginRedictText;
     private String id_user;
@@ -34,26 +33,33 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_activity);
+        setContentView(R.layout.activity_signup);
 
         auth = FirebaseAuth.getInstance();
         txt_email = findViewById(R.id.email);
         txt_password = findViewById(R.id.password);
         signup_button = findViewById(R.id.signup_button);
         loginRedictText = findViewById(R.id.loginRedictText);
+        txtusername = findViewById(R.id.username);
 
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String username = txtusername.getText().toString().trim();
                 String user = txt_email.getText().toString().trim();
                 String pass = txt_password.getText().toString().trim();
-                User user_ob = new User(user, pass);
+
+                if(username.isEmpty()){
+                    txt_email.setError("El username no puede estar vacio");
+                }
                 if(user.isEmpty()){
                     txt_email.setError("El email no puede ser vacio");
                 }
                 if(pass.isEmpty()){
                     txt_password.setError("La contraseña no puede ser vacio");
                 }else{
+                    User user_ob = new User(username, user, pass);
                     auth.createUserWithEmailAndPassword(user, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -61,8 +67,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 Toast.makeText(SignUpActivity.this, "A ingresado correctamente", Toast.LENGTH_SHORT).show();
 
                                 //almacenar en firebase el usuario
-                                UserService service_user = new UserService(SignUpActivity.this, user_ob);
-                                id_user = service_user.save();
+                                UserService service_user = new UserService(SignUpActivity.this);
+                                id_user = service_user.save( user_ob);
 
                                 //Salvar la sesión en android
                                 saveSesion();
@@ -82,14 +88,13 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
             }
         });
-
-
     }
 
     private void saveSesion() {
         SharedPreferences preferences = getSharedPreferences("sesion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("id_user", id_user);
+        editor.putString("username", String.valueOf(txtusername));
         editor.putString("email", String.valueOf(txt_email));
         editor.putString("password", String.valueOf(txt_password));
         editor.putBoolean("status", true);

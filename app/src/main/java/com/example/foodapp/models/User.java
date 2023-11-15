@@ -3,14 +3,18 @@ package com.example.foodapp.models;
 public class User {
 
 
-    private String correo;
-    private String password;
-    private String username;
-    private String id;
+    private String username, correo, password, id;
 
-    public User(String correo, String password) {
+    public User(){}
+
+    public User(String username, String correo, String password) {
         this.correo = correo;
         this.password = password;
+        this.username = username;
+    }
+
+    public User(String id){
+        this.id = id;
     }
 
 

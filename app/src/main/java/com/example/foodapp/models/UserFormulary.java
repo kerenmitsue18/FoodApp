@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UserFormulary {
 
-    private String id;
+    private String id_formulario;
     private String id_user;
     private String edad;
     private String genero;
@@ -26,11 +26,11 @@ public class UserFormulary {
     }
 
     public String getId() {
-        return id;
+        return id_formulario;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id_formulario = id;
     }
 
     public String getEdad() {
@@ -108,7 +108,7 @@ public class UserFormulary {
     @Override
     public String toString() {
         return "UserFormulary{" +
-                "id='" + id + '\'' +
+                "id='" + id_formulario + '\'' +
                 ", id_user='" + id_user + '\'' +
                 ", edad='" + edad + '\'' +
                 ", genero='" + genero + '\'' +

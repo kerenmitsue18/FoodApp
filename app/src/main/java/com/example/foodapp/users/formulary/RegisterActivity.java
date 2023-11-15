@@ -1,8 +1,5 @@
 package com.example.foodapp.users.formulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,14 +8,16 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.foodapp.service.FormularyService;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.foodapp.MainActivity;
 import com.example.foodapp.R;
 import com.example.foodapp.models.ScreenItem;
 import com.example.foodapp.models.UserFormulary;
+import com.example.foodapp.service.FormularyService;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -40,13 +39,24 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_activity);
+        setContentView(R.layout.activity_register);
+
+
+        //ArrayList de opciones
+        initOpcions();
 
         // init views
         initViews();
 
-        //ArrayList de opciones
-        initOpcions();
+        //verificar si hay un usuario asignado
+        SharedPreferences preferences = this.getSharedPreferences("sesion", Context.MODE_PRIVATE);
+        String id_user = preferences.getString("id_user", null);
+
+        if(id_user != null){
+            Toast.makeText(RegisterActivity.this, id_user, Toast.LENGTH_SHORT).show();
+        }
+
+
 
         // fill list screen
         final List<ScreenItem> mList = new ArrayList<>();
@@ -80,8 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                     position++;
                     screenPager.setCurrentItem(position);
                 }
-                if (position == mList.size() - 1) { // when we rech to the last screen
-                    // TODO : show the GETSTARTED Button and hide the indicator and the next button
+                if (position == mList.size() - 1) {
                     loaddLastScreen();
                 }
             }
@@ -141,15 +150,15 @@ public class RegisterActivity extends AppCompatActivity {
         String id_user = preferences.getString("id_user", "");
         if (id_user != null) {
             userFormulary.setId_user(id_user);
-            FormularyService formularySave = new FormularyService(this, userFormulary);
-            formularySave.save();
+            FormularyService formularySave = new FormularyService(this);
+            formularySave.save(userFormulary);
         }else{
             Toast.makeText(RegisterActivity.this, "Fallo el registro de formulario \n", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initOpcions() {
-
+        opciones = new ArrayList<>();
         String[] edad = {"menos de 20 años","20 a 25 años", "25 a 30 años", "30 a 35 años", "35 a 40 años", "más de 40 años"};
         //Altura
         //Peso Actual
@@ -171,9 +180,6 @@ public class RegisterActivity extends AppCompatActivity {
         opciones.add(nivel_actividad);
         opciones.add(objetivo);
         opciones.add(nivel_cocina);
-
-
-        //opciones.add(tipo_dieta);
     }
 
     private void loaddLastScreen() {

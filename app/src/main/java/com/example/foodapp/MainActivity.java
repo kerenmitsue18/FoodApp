@@ -1,62 +1,67 @@
 package com.example.foodapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
-
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.foodapp.databinding.ActivityMainBinding;
+import com.example.foodapp.menu.HomeFragment;
+import com.example.foodapp.menu.PlaceFragment;
+import com.example.foodapp.menu.SettingsFragment;
+import com.example.foodapp.menu.StatisticsFragment;
 import com.example.foodapp.users.LoginActivity;
 import com.example.foodapp.users.formulary.RegisterActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    BottomNavigationView bottomNavigationView;
 
-     BottomNavigationView bottomNavigationView;
-     HomeFragment homeFragment = new HomeFragment();
-     PlaceFragment placesFragment = new PlaceFragment();
-     SettingsFragment settingsFragment = new SettingsFragment();
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        changeFragment(new HomeFragment());
+        binding.bottomNavigationView.setBackground(null);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
-                        return true;
-                    case R.id.lugares:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, placesFragment).commit();
-                        return true;
-                    case R.id.configuracion:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, settingsFragment).commit();
-                        return true;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + item.getItemId());
-                }
-                return false;
+            switch (item.getItemId()) {
+                case R.id.menu_home:
+                    changeFragment(new HomeFragment());
+                    break;
+
+                case R.id.menu_buscar:
+                    changeFragment(new PlaceFragment());
+                    break;
+                case R.id.menu_estadisticas:
+                    changeFragment(new StatisticsFragment());
+                    break;
+                case R.id.menu_perfil:
+                    changeFragment(new SettingsFragment());
+                    break;
             }
+
+            return true;
+
         });
+
 
         //validacion para tener la sesion activa
         SharedPreferences preferences = getSharedPreferences("sesion", Context.MODE_PRIVATE);
-        if (preferences.getBoolean("status_user", false) == false) {
+        if (preferences.getString("id_user", "") == null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -78,4 +83,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void changeFragment(Fragment selectedFragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, selectedFragment);
+        fragmentTransaction.commit();
+    }
+
+
+
+
 }
+
