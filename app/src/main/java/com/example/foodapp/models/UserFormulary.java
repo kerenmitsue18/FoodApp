@@ -1,10 +1,11 @@
 package com.example.foodapp.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserFormulary {
+public class UserFormulary implements Serializable {
 
-    private String id;
+    private String id_formulario;
     private String id_user;
     private String edad;
     private String genero;
@@ -17,20 +18,23 @@ public class UserFormulary {
     private List<String> alimentos;
     private List<String> enfermedades;
 
+    public UserFormulary(){}
+
+
+    public String getId_formulario() {
+        return id_formulario;
+    }
+
+    public void setId_formulario(String id_formulario) {
+        this.id_formulario = id_formulario;
+    }
+
     public String getId_user() {
         return id_user;
     }
 
     public void setId_user(String id_user) {
         this.id_user = id_user;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getEdad() {
@@ -108,7 +112,7 @@ public class UserFormulary {
     @Override
     public String toString() {
         return "UserFormulary{" +
-                "id='" + id + '\'' +
+                "id_formulario='" + id_formulario + '\'' +
                 ", id_user='" + id_user + '\'' +
                 ", edad='" + edad + '\'' +
                 ", genero='" + genero + '\'' +

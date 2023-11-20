@@ -6,9 +6,7 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_low_ligth"
-    tools:context=".users.SignUpActivity"
-    >
+    tools:context=".users.SignUpActivity" >
 
 
     <androidx.cardview.widget.CardView
@@ -41,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
-                android:drawableLeft="@drawable/person"
-                android:hint="Email"
+                android:drawableLeft="@drawable/email_24"
+                android:hint=" Email"
                 android:padding="8dp"
                 android:textColor="@color/green_dark" />
 
@@ -63,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Log In"
+                android:backgroundTint="@color/green_dark"
                 android:layout_marginTop="30dp"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />

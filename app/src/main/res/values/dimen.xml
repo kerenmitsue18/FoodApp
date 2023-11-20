@@ -2,5 +2,7 @@
 <resources>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_10">20dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_05">5dp</dimen>
 
 </resources>

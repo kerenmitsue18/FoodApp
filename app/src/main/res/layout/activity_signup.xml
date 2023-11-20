@@ -6,7 +6,6 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_low_ligth"
     tools:context=".users.SignUpActivity"
     >
 
@@ -16,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
+        app:cardElevation="20dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,12 +37,22 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@id/email"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
                 android:drawableLeft="@drawable/person"
-                android:hint="Email"
+                android:hint="Username"
+                android:padding="8dp"
+                android:textColor="@color/green_dark" />
+
+            <EditText
+                android:id="@id/email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/email_24"
+                android:hint=" Email"
                 android:padding="8dp"
                 android:textColor="@color/green_dark" />
 
@@ -65,6 +75,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="18sp"
                 android:text="Sign Up"
+                android:backgroundTint="@color/green_dark"
                 app:cornerRadius="20dp" />
 
             <TextView

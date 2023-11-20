@@ -11,14 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.foodapp.MainActivity;
-import com.example.foodapp.R;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodapp.users.formulary.RegisterActivity;
+import com.example.foodapp.HomeActivity;
+import com.example.foodapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -35,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
         email = findViewById(R.id.email);
@@ -58,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Inicio de sesión correcta", Toast.LENGTH_SHORT).show();
                                     //Guardar la información de la sesión
                                     saveSesion();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                     finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -91,4 +89,5 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean("status", true);
         editor.apply();
     }
+
 }

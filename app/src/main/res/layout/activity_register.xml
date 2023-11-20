@@ -25,10 +25,9 @@
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="16dp"
-            android:background="#fff"
             android:text="Next"
-            android:drawableRight="@drawable/baseline_arrow_right_alt_24"
-            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:backgroundTint="@color/green_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -47,8 +46,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tabBackground="@drawable/indicator_selector"
         />
-
-
     <Button
         android:id="@+id/btn_get_started"
         android:layout_width="132dp"
@@ -61,6 +58,7 @@
         android:text="Get Started"
         android:textColor="#fff"
         android:visibility="invisible"
+        android:backgroundTint="@color/green_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
