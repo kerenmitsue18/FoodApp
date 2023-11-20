@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodapp.MainActivity;
+import com.example.foodapp.HomeActivity;
 import com.example.foodapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Inicio de sesión correcta", Toast.LENGTH_SHORT).show();
                                     //Guardar la información de la sesión
                                     saveSesion();
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                     finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
