@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DetailRestaurant">
+
+    <TextView
+        android:id="@+id/txt_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurante"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txt_street"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Callejon de la luz #4 barrio de santiago 1 seccion"
+        app:layout_constraintEnd_toEndOf="@+id/txt_Name"
+        app:layout_constraintStart_toStartOf="@+id/txt_Name"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Name" />
+
+    <TextView
+        android:id="@+id/txt_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teléfono: 5555555555"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_street"
+        app:layout_constraintStart_toStartOf="@+id/txt_street"
+        app:layout_constraintTop_toBottomOf="@+id/txt_street" />
+
+    <TextView
+        android:id="@+id/txt_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:text="Correo: restaurante@gmail.com"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_phone"
+        app:layout_constraintStart_toStartOf="@+id/txt_phone"
+        app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
+
+    <Button
+        android:id="@+id/btn_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green_dark"
+        android:text="Contactar"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_email"
+        app:layout_constraintStart_toStartOf="@+id/txt_email"
+        app:layout_constraintTop_toBottomOf="@+id/txt_email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

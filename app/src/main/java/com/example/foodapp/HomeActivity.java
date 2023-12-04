@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.foodapp.databinding.ActivityHomeBinding;
 import com.example.foodapp.menu.HomeFragment;
 import com.example.foodapp.menu.PlaceFragment;
+import com.example.foodapp.menu.RestaurantFragment;
 import com.example.foodapp.menu.SettingsFragment;
-import com.example.foodapp.menu.StatisticsFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -44,7 +44,8 @@ public class HomeActivity extends AppCompatActivity {
                     changeFragment(new PlaceFragment());
                     break;
                 case R.id.menu_estadisticas:
-                    changeFragment(new StatisticsFragment());
+                    //changeFragment(new StatisticsFragment());
+                    changeFragment(new RestaurantFragment());
                     break;
                 case R.id.menu_perfil:
                     changeFragment(new SettingsFragment());
@@ -60,6 +61,5 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, selectedFragment);
         fragmentTransaction.commit();
     }
-
 
 }

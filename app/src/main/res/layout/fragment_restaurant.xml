@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".menu.RestaurantFragment">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Restaurante"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/porcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Ingresa los siguientes datos para que te conozcan"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/porcion">
+
+        <EditText
+            android:id="@+id/txt_restaurante"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre restaurante" />
+
+        <EditText
+            android:id="@+id/txt_phone"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="telefono"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/txt_email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="correo"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/txt_latitud"
+            android:layout_width="300dp"
+
+            android:layout_height="wrap_content"
+            android:hint="latitud" />
+
+        <EditText
+            android:id="@+id/txt_longitud"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="longitud" />
+
+        <EditText
+            android:id="@+id/txt_street"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="calle" />
+
+        <EditText
+            android:id="@+id/txt_exterior"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="interior"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txt_interior"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="exterior"
+            android:inputType="number" />
+
+
+        <EditText
+            android:id="@+id/txt_colonia"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="colonia" />
+
+        <EditText
+            android:id="@+id/txt_municipio"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="municipio" />
+
+        <EditText
+            android:id="@+id/txt_estado"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="estado" />
+
+        <EditText
+            android:id="@+id/txt_postal"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="codigo postal" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

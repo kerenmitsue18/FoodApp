@@ -154,12 +154,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnNext.setOnClickListener(this::onClick);
         btnGetStarted.setOnClickListener(this::onClick);
 
+
+        //si existe un userFormulario, traer los datos y mostrarlos
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("User_formulary")) {
+            UserFormulary userFormulary = (UserFormulary) intent.getSerializableExtra("User_formulary");
+            sharedViewModel.setUserFormulary(userFormulary); //le pasamos a todas las vistar el userFormulary
+            editInitComponents();
+        } else {
+            System.out.println("No llego");
+            sharedViewModel.setUserFormulary(new UserFormulary()); // le pasamos un userVacio
+        }
+
+
+
         initPagerAdapter();
         initTabIndicator();
     }
 
+    private void editInitComponents() {
+
+
+    }
+
     private void initPagerAdapter() {
-        sharedViewModel.setUserFormulary(new UserFormulary());
         tabIndicator.setupWithViewPager(screenPager);
         registerAdapter = new RegisterAdapter(getSupportFragmentManager(), sharedViewModel);
         registerAdapter.addFragment(new AgeFragment());
