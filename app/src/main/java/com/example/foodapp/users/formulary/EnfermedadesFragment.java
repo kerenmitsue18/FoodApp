@@ -1,28 +1,35 @@
 package com.example.foodapp.users.formulary;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.foodapp.R;
+import com.example.foodapp.utils.SpeechText;
+import com.example.foodapp.utils.UtilsComponents;
 
 import java.util.ArrayList;
 
 
-public class EnfermedadesFragment extends Fragment {
+public class EnfermedadesFragment extends Fragment implements UtilsComponents {
 
-    private String [] enfermedades = {"Ninguno","Diabetes Tipo I", "Diabetes Tipo II", "Prediabetes"};
+    private String [] enfermedades = {"Ninguno","Diabetes tipo 1", "Diabetes tipo 2", "Prediabetes"};
     private View view;
-    private ArrayList<String> enfermedades_selected = new ArrayList<>();
-    private ArrayList<CheckBox> checkBoxes = new ArrayList<>();;
+    private RadioGroup radioGroup;
     private FormularyViewModel formularyViewModel;
+    private SpeechText speechText;
+
+    private ImageButton btn_microphone;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,62 +39,76 @@ public class EnfermedadesFragment extends Fragment {
     }
 
     private void initComponents() {
-        LinearLayout enfermedades_layout = view.findViewById(R.id.enfermedades_layout);
+
+        btn_microphone = view.findViewById(R.id.btn_microphone);
+        radioGroup = view.findViewById(R.id.radioGroup_sick);
+        speechText = new SpeechText();
+
         formularyViewModel = new ViewModelProvider(requireActivity()).get(FormularyViewModel.class);
 
+
         for (int i = 0; i < enfermedades.length; i++) {
-            CheckBox checkBox = new CheckBox(getContext());
-            checkBox.setText(enfermedades[i]);
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            RadioButton radioButton = new RadioButton(getContext());
+            radioButton.setText(enfermedades[i]);
+            radioGroup.addView(radioButton);
+        }
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if (checkedId != -1) {
+                    RadioButton radioButton = view.findViewById(checkedId);
+                    formularyViewModel.getUserFormulary().setEnfermedades(radioButton.getText().toString());
+                    System.out.println(formularyViewModel.getUserFormulary());
+                }
+            }
+        });
+
+            btn_microphone.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    // Si se selecciona este CheckBox, desactiva los demás
-                    if (isChecked) {
-                        desactivarOtrosCheckBox(compoundButton);
-                        addChecked(compoundButton);
-                    } else{
-                        activarCheckBoxes();
-                        removeChecked(compoundButton);
-                    }
-                    formularyViewModel.getUserFormulary().setEnfermedades(enfermedades_selected);
+                public void onClick(View view) {
+                    Intent intent = speechText.createSpeechRecognizerIntent();
+                    startActivityForResult(intent, speechText.getRECOGNIZER_CODE());
                 }
             });
 
-            checkBoxes.add(checkBox);
-            enfermedades_layout.addView(checkBox);
+
         }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        speechText.processSpeechResults(requestCode, resultCode, data, new SpeechText.SpeechRecognitionCallback() {
+            @Override
+            public void onRecognitionResult(Intent data) {
+                // Procesa los resultados aquí
+                ArrayList<String> textList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                updateRadioGroup(textList.get(0));
+            }
+        });
     }
 
-    private void removeChecked(CompoundButton compoundButton) {
-        enfermedades_selected.remove(compoundButton.getText().toString());
+
+    public void SetViewModel(FormularyViewModel formularyViewModel) {
+        this.formularyViewModel = formularyViewModel;
     }
 
-    private void addChecked(CompoundButton compoundButton) {
-        enfermedades_selected.add(compoundButton.getText().toString());
-    }
-
-    private void activarCheckBoxes() {
-        for (CheckBox checkBox : checkBoxes) {
-            checkBox.setEnabled(true); // Activa el CheckBox
-            checkBox.setChecked(false);
-        }
-    }
-
-    private void desactivarOtrosCheckBox(CompoundButton checkBoxActual) {
-        // Itera sobre los CheckBox y desactiva los que no sean el Ninguno
-        for (CheckBox checkBox : checkBoxes) {
-            if ("Ninguno" == checkBoxActual.getText()) {
-                checkBox.setChecked(false);
-                checkBoxActual.setEnabled(true);
-                checkBoxActual.setChecked(true);
-                checkBox.setEnabled(false);
-                enfermedades_selected.clear();
-                formularyViewModel.getUserFormulary().setEnfermedades(enfermedades_selected);
+    @Override
+    public void updateRadioGroup(String valor) {
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            View radioButtonView = radioGroup.getChildAt(i);
+            if (radioButtonView instanceof RadioButton) {
+                RadioButton radioButton = (RadioButton) radioButtonView;
+                if (radioButton.getText().toString().equals(valor) || radioButton.getText().toString().equals(SpeechText.capitalizarPrimeraLetra(valor))) {
+                    radioButton.setChecked(true);
+                    break;
+                }
             }
         }
     }
 
-    public void SetViewModel(FormularyViewModel formularyViewModel) {
-        this.formularyViewModel = formularyViewModel;
+    @Override
+    public void UpdateButtons(ArrayList<String> valores) {
+
     }
 }

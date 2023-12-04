@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="16dp"
+        android:text="Recetas"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_marginLeft="@dimen/dimen_16"
+        android:paddingBottom="@dimen/dimen_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_marginLeft="@dimen/dimen_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtName"
+        app:layout_constraintTop_toBottomOf="@+id/txtName"
+        app:srcCompat="@drawable/person" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageView8"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8">
+
+        <!-- Fila 1 -->
+        <TableRow
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Celda 1 -->
+            <TextView
+                android:id="@+id/txt_cal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:drawableLeft="@drawable/calories"
+                android:text="Cal: 95 kcal" />
+
+            <!-- Celda 2 -->
+            <TextView
+                android:id="@+id/txt_proteina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/proteinas"
+                android:text="Proteína: 20 gramos" />
+        </TableRow>
+
+        <!-- Fila 2 -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Celda 3 -->
+            <TextView
+                android:id="@+id/txt_HC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:drawableLeft="@drawable/carbohidratos"
+                android:text="HC: 95 gramos" />
+
+            <!-- Celda 4 -->
+            <TextView
+                android:id="@+id/txt_AG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/grasas"
+                android:text="AG: 20 gramos" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/t_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:text="Ingredientes"
+        android:textColor="@color/green_dark"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+    <TextView
+        android:id="@+id/txt_ingredientes"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="Descripción de los ingredientes"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_marginLeft="@dimen/dimen_16"
+        android:textAlignment="center"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/t_ingredients" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:text="Preparación"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_ingredientes" />
+
+    <TextView
+        android:id="@+id/txt_preparacion"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="Preparación de receta"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_marginLeft="@dimen/dimen_16"
+        android:textAlignment="center"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@id/porcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Porción: "
+        android:layout_marginRight="@dimen/dimen_16"
+        android:layout_marginLeft="@dimen/dimen_16"
+        android:textAlignment="center"
+        android:layout_marginBottom="@dimen/dimen_20"
+        app:layout_constraintTop_toBottomOf="@+id/txt_preparacion"
+        />
+
+    <Button
+        android:id="@+id/btn_cocinar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cocinar"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/dimen_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/porcion" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

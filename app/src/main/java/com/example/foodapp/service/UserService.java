@@ -11,7 +11,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.UUID;
@@ -40,32 +39,26 @@ public class UserService {
         databaseReference = firebaseDatabase.getReference();
     }
 
-    private User getUser(String id_user){
-        User user = new User();
+    public void getUser(String id_user, OnUserDataReceived callback){
         initFirebase();
-        Query query = databaseReference.orderByChild("id_user").equalTo(id_user);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userbase = databaseReference.child("Usuarios");
+
+        userbase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        // Obtiene el usuario encontrado
-                        User usuario = snapshot.getValue(User.class);
-                        String correo = usuario.getCorreo();
-                        Toast.makeText(context, "Correo: " + correo, Toast.LENGTH_SHORT).show();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()  ) {
+                    if(snapshot.getKey().equals(id_user)){
+                        User user = snapshot.getValue(User.class);
+                        callback.onDataReceived(user);
+                        break;
                     }
-                }else{
-                    Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error en la consulta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al recuperar datos: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        return user;
     }
-
-
 }

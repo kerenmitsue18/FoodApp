@@ -16,7 +16,7 @@ public class UserFormulary implements Serializable {
     private String nivel_cocina;
     private List<String> alergias;
     private List<String> alimentos;
-    private List<String> enfermedades;
+    private String enfermedades;
 
     public UserFormulary(){}
 
@@ -101,11 +101,11 @@ public class UserFormulary implements Serializable {
         this.alimentos = alimentos;
     }
 
-    public List<String> getEnfermedades() {
+    public String getEnfermedades() {
         return enfermedades;
     }
 
-    public void setEnfermedades(List<String> enfermedades) {
+    public void setEnfermedades(String enfermedades) {
         this.enfermedades = enfermedades;
     }
 

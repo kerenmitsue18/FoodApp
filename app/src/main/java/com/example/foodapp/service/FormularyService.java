@@ -47,31 +47,28 @@ public class FormularyService {
         databaseReference = firebaseDatabase.getReference();
     }
 
-    public UserFormulary getFormulary(String id_formulario, OnFormularyDataReceived callback) {
-
+    public void getFormulary(String id_formulario, OnFormularyDataReceived callback) {
         initFirebase();
-        databaseReference = firebaseDatabase.getReference().child("formulario");
+        DatabaseReference formularioRef = databaseReference.child("Formulario");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        formularioRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot data : snapshot.getChildren()) {
-                        userFormulary = data.getValue(UserFormulary.class);
-                        if (userFormulary.getId_formulario().equals(id_formulario)) {
-                            callback.onDataReceived(userFormulary);
-                        }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()  ) {
+                    if(snapshot.getKey().equals(id_formulario)){
+                        UserFormulary userFormulary = snapshot.getValue(UserFormulary.class);
+                        callback.onDataReceived(userFormulary);
+                        break;
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(context, "Error al recuperar datos: " + error.getMessage(), Toast.LENGTH_LONG).show();
             }
-
         });
-        return userFormulary;
     }
 
 }

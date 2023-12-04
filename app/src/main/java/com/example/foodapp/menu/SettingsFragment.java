@@ -19,9 +19,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.foodapp.ProfileFragment;
 import com.example.foodapp.R;
+import com.example.foodapp.models.User;
 import com.example.foodapp.models.UserFormulary;
 import com.example.foodapp.service.FormularyService;
 import com.example.foodapp.service.OnFormularyDataReceived;
+import com.example.foodapp.service.OnUserDataReceived;
+import com.example.foodapp.service.UserService;
 import com.example.foodapp.users.LoginActivity;
 import com.example.foodapp.users.formulary.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,20 +34,29 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private Button btnCerrarSesion, btnEstadisticas, btnFormulary, btn_profile;
+    private TextView txtUsername, txtCorreo;
     private SharedPreferences preferences, pref_formulary;
     private UserFormulary userFormulary;
+    private User ActualUser;
+
+    public SettingsFragment(){
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         initComponents();
+
+        getUser();
+
         return view;
     }
 
     private void initComponents() {
-        //inicializar los datos del usuario
-        TextView txtUsername = view.findViewById(R.id.textUsername);
-        TextView txtCorreo = view.findViewById(R.id.textEmail);
+        //inicializar componentes
+        txtUsername = view.findViewById(R.id.textUsername);
+        txtCorreo = view.findViewById(R.id.textEmail);
         btnCerrarSesion = view.findViewById(R.id.btn_cerrarSesion);
         btnEstadisticas = view.findViewById(R.id.btn_estadisticas);
         btnFormulary = view.findViewById(R.id.btn_formulary);
@@ -55,22 +67,44 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         btnFormulary.setOnClickListener(this::onClick);
         btn_profile.setOnClickListener(this::onClick);
 
+    }
 
-        //preferences = view.getContext().getSharedPreferences("sesion", Context.MODE_PRIVATE);
-        //System.out.println(preferences.getString("username",null));
-        //System.out.println(preferences.getString("email",null));
-        //txtUsername.setText(preferences.getString("username",null).toString());
-        //txtCorreo.setText(preferences.getString("email",null).toString());
+    private void getUser() {
+        User user = new User();
+        //Obtener identificador del id_user
+        preferences = view.getContext().getSharedPreferences("sesion", Context.MODE_PRIVATE);
+        String id_user = preferences.getString("id_user", null);
+        System.out.println("El id_user es: "+ id_user);
 
+        //obtener usuario de base de datos
+        UserService userService = new UserService(getContext());
+        userService.getUser(id_user, new OnUserDataReceived() {
+            @Override
+            public void onDataReceived(User usuario) {
+                ActualUser = usuario;
+                System.out.println("El usuario es: " + ActualUser.toString());
+                editUser();
+            }
+            @Override
+            public void onDataError(String errorMessage) {
+
+            }
+        });
+
+    }
+
+    private void getFormulary() {
 
         pref_formulary = view.getContext().getSharedPreferences("formularyUser", Context.MODE_PRIVATE);
         FormularyService formularyService = new FormularyService(getContext());
+
         String id_formulary = pref_formulary.getString("id_formulary",null);
-        userFormulary = formularyService.getFormulary(id_formulary, new OnFormularyDataReceived(){
+        System.out.println("El identificador es: "+ id_formulary);
+        formularyService.getFormulary(id_formulary, new OnFormularyDataReceived(){
             @Override
-            public void onDataReceived(UserFormulary userFormulary) {
-                System.out.println("AQUI SE GUARDA INFOR");
-                System.out.println(userFormulary.toString());
+            public void onDataReceived(UserFormulary userf) {
+                System.out.println(userf.toString());
+                userFormulary = userf;
             }
             @Override
             public void onDataError(String errorMessage) {
@@ -78,23 +112,37 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
-
     }
 
 
-    //Editar datos del formulario si existe el usuario
+    //Editar datos si existe el usuario
     private void editUser() {
-
-        //agregar datos
+        System.out.println("Usuario es: " +ActualUser.getUsername());
+        System.out.println("Correo es: " +ActualUser.getUsername());
+        txtUsername.setText(ActualUser.getUsername());
+        txtCorreo.setText(ActualUser.getCorreo());
     }
 
     private void viewFormulary() {
-        Intent mainActivity = new Intent(this.getContext(), RegisterActivity.class );
-        startActivity(mainActivity);
+        Intent formularyActivity = new Intent(this.getContext(), RegisterActivity.class);
+        formularyActivity.putExtra("User_formulary", userFormulary); // Mover esta línea antes de startActivity
+        startActivity(formularyActivity);
         getActivity().onBackPressed();
     }
 
+    private void viewProfile(){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        ProfileFragment formulario_fragment = new ProfileFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("User", ActualUser);
+        formulario_fragment.setArguments(args);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, formulario_fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onClick(View view) {
@@ -104,9 +152,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         } else if (id == R.id.btn_formulary) {
             viewFormulary();
         } else if (id == R.id.btn_profile) {
-            FragmentManager fragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.frame_layout, new ProfileFragment()).addToBackStack(null);
-            fragmentTransaction.commit();
+           viewProfile();
         } else if (id == R.id.btn_estadisticas) {
             Toast.makeText(getContext(), "Estadisticas", Toast.LENGTH_SHORT).show();
         }
